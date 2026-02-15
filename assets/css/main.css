@@ -4671,6 +4671,11 @@ header.major > .date:after {
   z-index: -1;
 }
 
+@media screen and (max-width: 736px) {
+  #bgvideo { display: none; }
+  #intro { display: none; }
+}
+
 
 #wrapper > .bg {
   display: none !important;

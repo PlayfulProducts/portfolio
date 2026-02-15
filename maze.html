@@ -99,6 +99,7 @@ var strokeSlider = document.getElementById('strokeSlider');
 var strokeVal = document.getElementById('strokeVal');
 var WOBBLE = 3.2;
 var PATH_WIDTH = 3.5;
+var baseCellSize = 30;
 var ARROW_SIZE = 12;
 var START_COLOR = '#C4724F';
 var END_COLOR = '#8978A5';
@@ -186,7 +187,7 @@ function drawWobblePath(pts,color,width){
   ctx.stroke();
 }
 
-function getStrokeWidth(){ return parseInt(strokeSlider.value)||WALL_WIDTH; }
+function getStrokeWidth(){ return baseCellSize*(parseInt(strokeSlider.value)||WALL_WIDTH)/30; }
 function drawLine(x1,y1,x2,y2){
   drawWobblePath(getWobbleLinePoints(x1,y1,x2,y2), WALL_COLOR, getStrokeWidth());
 }
@@ -339,7 +340,7 @@ function drawSolutionPath(cellPos,path){
   if(path.length<2) return;
   ctx.beginPath();
   ctx.strokeStyle=PATH_COLOR;
-  ctx.lineWidth=PATH_WIDTH;
+  ctx.lineWidth=baseCellSize*0.12;
   ctx.lineCap='round';
   ctx.lineJoin='round';
   ctx.globalAlpha=0.75;
@@ -365,6 +366,7 @@ function buildRectMaze(diff,W,H,square){
   var cols=cfg.c, rows=cfg.r;
   var pad=22;
   var cellW=(W-pad*2)/cols, cellH=(H-pad*2)/rows;
+  baseCellSize=Math.min(cellW,cellH);
   var N=cols*rows;
   var adj=[];
   for(var i=0;i<N;i++){
@@ -421,6 +423,7 @@ function buildCircleMaze(diff,W,H){
   var cx=W/2, cy=H/2;
   var maxR=Math.min(W,H)/2-20;
   var ringW=maxR/(numRings+1);
+  baseCellSize=ringW;
 
   // Compute sectors per ring
   var sectors=[1]; // ring 0 = center
@@ -571,6 +574,7 @@ function buildMaskedMaze(shape,diff,W,H){
   var pad=22;
   var usableW=W-pad*2, usableH=H-pad*2;
   var cellS=Math.min(usableW/gsize, usableH/gsize);
+  baseCellSize=cellS;
   var cols=Math.floor(usableW/cellS);
   var rows=Math.floor(usableH/cellS);
   var offX=pad+(usableW-cols*cellS)/2;
@@ -847,6 +851,7 @@ window.addEventListener('resize',function(){
 });
 
 // ─── INIT ──────────────────────────────────────────
+if(window.innerWidth<600){strokeSlider.value=4;strokeVal.textContent='4';}
 buildMaze();
 
 })();
