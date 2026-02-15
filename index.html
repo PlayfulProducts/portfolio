@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBS0W2YECL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GBS0W2YECL');
+  </script>
+  <title>Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+  <style>
+    /* Style for the right corner up arrow */
+    a.scroll-up-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: transparent;
+      color: #3498db !important;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none !important;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    a.scroll-up-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    a.scroll-up-right:hover {
+      background: #3498db !important;
+      border-color: #3498db;
+      transform: translateY(-3px);
+      color: white !important;
+    }
+
+    a.scroll-up-right i {
+      font-size: 18px;
+      color: inherit !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Video Background -->
+<video autoplay muted loop playsinline id="bgvideo">
+  <source src="assets/videos/isik_portfolio_video.mp4" type="video/mp4">
+</video>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Check if this is the first visit to the site
+  const isFirstVisit = !sessionStorage.getItem('visited');
+
+  if (isFirstVisit) {
+    // First visit - start at top to show video intro
+    sessionStorage.setItem('visited', 'true');
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+  } else {
+    // Navigation from tabs - start at 700px down
+    window.scrollTo({
+      top: 830,
+      behavior: "instant"
+    });
+  }
+});
+
+// Add click handlers to navigation links
+document.addEventListener("DOMContentLoaded", function() {
+  const navLinks = document.querySelectorAll('#nav a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Set the visited flag so next page loads at 700px
+      sessionStorage.setItem('visited', 'true');
+    });
+  });
+});
+</script>
+
+  <!-- Wrapper -->
+  <div id="wrapper" class="fade-in">
+
+    <!-- Intro -->
+    <div id="intro">
+     <p class="subtitle">Senior designer building visual communication systems for brands, culture, education, and research.</p>
+        <ul class="actions">
+        <li><a href="#main" class="button icon solid solo fas fa-arrow-down scrolly"><span class="label">Continue</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+      <a href="index.html" class="logo">Isik Evirgen</a>
+    </header>
+
+    <!-- Nav -->
+<nav id="nav">
+  <ul class="links">
+    <li><a href="visual_storytelling.html">Visual Storytelling</a></li>
+    <li class="active"><a href="index.html">Communication & Culture</a></li>
+    <li><a href="brand_commercial.html">Brand & Commercial</a></li>
+    <li><a href="playful_instruments.html">Percussion & Play</a></li>
+    <li><a href="digital_web_interfaces.html">Interfaces</a></li>
+    <li><a href="ai_concepts.html">AI Concepts</a></li>
+  </ul>
+</nav>
+
+
+
+    <!-- Main -->
+   <div id="main">
+
+  <!-- Project 1 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Ankara International Jazz Festival</h2>
+    <span class="date">2007 - 2015</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="jazzfestival.html" class="image main" style="padding:0;">
+  <img src="assets/images/ankarajazz20_isik.jpg" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/ankarajazzfestival_piano_program_byisikevirgen.png" alt="">
+    <img src="assets/images/jazzfestival_byisikevirgen_detail3.jpg" alt="">
+  </div>
+<p class="h12" style="color:black; margin-top:1rem;">
+Lead designer for Turkey's premier jazz festival from 2007 - 2015. Developed comprehensive visual systems spanning 20+ touchpoints: from poster campaigns to environmental installations. Managed brand evolution while maintaining visual consistency. Created design frameworks that supported festival growth from regional event to Europe Jazz Network member with 50,000+ annual attendance. Design templates remain in active use.</p>
+<ul class="actions special">
+  <li><a href="jazzfestival.html" class="button large">Story</a></li>
+</ul>
+</article>
+<!-- Project 2 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Editorial & Data Visualization Design for Teyit</h2>
+    <span class="date">2017 - 2019</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="teyit.html" class="image main" style="padding:0;">
+  <img src="assets/images/teyit_isik_1.png" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/teyit_isik_detail2.png" alt="">
+    <img src="assets/images/teyit_isik_detail1.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+  Comprehensive research publications were developed to analyze misinformation patterns, supported by visual communication systems for over 370 pages of bilingual content. Data visualizations translated complex statistical research into clear and accessible formats.
+  </p>
+
+   <ul class="actions special">
+    <li><a href="teyit.html" class="button large">Story</a></li>
+  </ul>
+</article>
+<!-- Project 3 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Civil Voices Festival</h2>
+    <span class="date">2009</span>
+  </header>
+
+  <!-- Main Image -->
+  <img src="assets/images/isikcivilvoices.png" style="width:100%; height:auto; display:block;" />
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/isikcivilvoices_2.png" alt="">
+    <img src="assets/images/isikcivilvoices_3.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+The festival brought together civil society organizations from across Turkey to share experiences, collaborate, and strengthen dialogue through workshops, panels, forums, and exhibition stands. Addressed a broad range of rights issues, including children's, disability, youth, refugee, women's, and environmental rights. Delivered the full event identity: large-scale vinyls, billboards, roll-ups, posters, brochures, maps, directional signage, feather flags, letterhead, document folders, stage backdrops, bunting, and exhibition stand layouts.  </p>
+</article>
+ <!-- Project 4 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Jazz Mix Culture</h2>
+    <span class="date">2008</span>
+  </header>
+
+  <!-- Main Image -->
+  <img src="assets/images/jazzmixculture.png" alt="" style="width:100%; height:auto; display:block;" />
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/jazzmixculture_detail1.png" alt="">
+    <img src="assets/images/jazzmixculture_detail2.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+    A visual identity and printed collateral for Jazz Mix Culture, a cultural initiative aimed at creating a musical bridge between Turkey and European Union countries. The campaign highlights cross-cultural collaboration, inviting Turkish and European musicians to share traditions, instruments, and styles. The project was developed and delivered within a very short timeframe.
+  </p>
+</article>
+</div>
+
+    <div id="copyright">
+      <ul>
+        <li class="under-construction">Site under construction</li>
+        <li>&copy; Isik Evirgen | 2004 - 2026</li>
+        <li><a href="mailto:isikevirgen@gmail.com">isikevirgen@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Fixed scroll-to-top button in right corner -->
+<a href="#intro" class="scroll-up-right scrolly" id="scrollUpRight">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+<script>
+$(document).ready(function() {
+  // Show/hide the scroll-up button based on scroll position
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 500) {
+      $('#scrollUpRight').addClass('show');
+    } else {
+      $('#scrollUpRight').removeClass('show');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

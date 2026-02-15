@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBS0W2YECL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GBS0W2YECL');
+  </script>
+  <title>Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+  <style>
+    /* Style for the right corner up arrow */
+    a.scroll-up-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: transparent;
+      color: #3498db !important;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none !important;
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    a.scroll-up-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    a.scroll-up-right:hover {
+      background: #3498db !important;
+      border-color: #3498db;
+      transform: translateY(-3px);
+      color: white !important;
+    }
+    
+    a.scroll-up-right i {
+      font-size: 18px;
+      color: inherit !important;
+    }
+
+    /* Custom Grid Layout using existing CSS framework */
+    .percussion-gallery {
+      margin: 2rem 0;
+    }
+
+    .gallery-title {
+      font-family: "Source Sans Pro", Helvetica, sans-serif;
+      font-weight: 900;
+      line-height: 1.5;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+      font-size: 1.75rem;
+      margin: 0 0 2rem 0;
+      color: #212931;
+      text-align: left;
+    }
+
+    .gallery-images {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .gallery-item {
+      flex: 1;
+      position: relative;
+    }
+
+    .gallery-item .image {
+      margin: 0;
+      display: block;
+      overflow: hidden;
+      border: 0;
+    }
+
+    .gallery-item .image img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease-out;
+    }
+
+    .gallery-item .image:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-description {
+      color: #212931;
+      text-align: justify;
+      margin: 0;
+      line-height: 2.375;
+      font-family: "Merriweather", Georgia, serif;
+      font-weight: 300;
+      font-size: 1rem;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 1280px) {
+      .gallery-images {
+        gap: 1rem;
+      }
+      
+      .gallery-item .image img {
+        height: 250px;
+      }
+    }
+
+    @media screen and (max-width: 980px) {
+      .gallery-images {
+        flex-wrap: wrap;
+      }
+      
+      .gallery-item {
+        flex: 0 0 calc(50% - 0.5rem);
+      }
+      
+      .gallery-item .image img {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 736px) {
+      .gallery-images {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .gallery-item {
+        flex: none;
+      }
+      
+      .gallery-item .image img {
+        height: 250px;
+      }
+      
+      .gallery-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Video Background -->
+<video autoplay muted loop playsinline id="bgvideo">
+  <source src="assets/videos/isik_portfolio_video.mp4" type="video/mp4">
+</video>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.scrollTo({
+    top: 830,
+    behavior: "instant"
+  });
+});
+</script>
+  <!-- Wrapper -->
+  <div id="wrapper" class="fade-in">
+
+    <!-- Intro -->
+    <div id="intro">
+     <p class="subtitle">Senior designer building visual communication systems for brands, culture, education, and research.</p>
+        <ul class="actions">
+        <li><a href="#main" class="button icon solid solo fas fa-arrow-down scrolly"><span class="label">Continue</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+      <a href="index.html" class="logo">Isik Evirgen</a>
+    </header>
+
+    <!-- Nav -->
+<nav id="nav">
+  <ul class="links">
+    <li><a href="visual_storytelling.html">Visual Storytelling</a></li>
+    <li><a href="index.html">Communication & Culture</a></li>
+    <li><a href="brand_commercial.html">Brand & Commercial</a></li>
+    <li><a href="playful_instruments.html">Percussion & Play</a></li>
+    <li><a href="digital_web_interfaces.html">Interfaces</a></li>
+    <li class="active"><a href="ai_concepts.html">AI Concepts</a></li>
+  </ul>
+</nav>
+
+    <!-- Main -->
+   <div id="main">
+
+    <!-- Maze Concepts — Flux.1 dev / ComfyUI -->
+    <article class="post featured">
+      <header class="major">
+        <h2 class="h11" style="font-size:2rem;">Maze Concepts</h2>
+        <span class="date">2024 - 2026</span>
+      </header>
+
+      <div class="gallery-images">
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/storyposter_playfulpngs_Adventurewithfantasticalcreatures.png" alt="Adventure with Fantastical Creatures">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/Story_Poster_Neon Night Maze_isik.png" alt="Neon Night Maze">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/storyposter_yeti_worm.png" alt="Yeti Worm">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/maze_witchandcat_isik.png" alt="Space Alien">
+          </span>
+        </div>
+      </div>
+
+      <p class="h12" style="color:black; margin-top:1rem;">
+        Colorful maze concept posters generated locally with Flux.1 dev on ComfyUI. Using controlnet methods. Each piece explores a different narrative worlds; from fantastical creatures to electric nightscapes.
+      </p>
+    </article>
+
+    <!-- Maze Generator — Interactive Tool -->
+    <article class="post featured">
+      <header class="major">
+        <h2 class="h11" style="font-size:2rem;">Maze Generator</h2>
+        <span class="date">2025 - 2026</span>
+      </header>
+
+      <p class="h12" style="color:black; margin-top:1rem;">
+        An interactive, hand-drawn style maze generator built with Claude. Every maze is unique. Generate new mazes, adjust the size, and reveal the solution path.
+      </p>
+
+      <div class="gallery-images" style="margin-top: 2em;">
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/mazeisik_1.jpg" alt="Maze screenshot 1">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/mazeisik_2.jpg" alt="Maze screenshot 2">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/mazeisik_3.jpg" alt="Maze screenshot 3">
+          </span>
+        </div>
+
+        <div class="gallery-item">
+          <span class="image">
+            <img src="assets/images/mazeisik_4.jpg" alt="Maze screenshot 4">
+          </span>
+        </div>
+      </div>
+
+      <ul class="actions special">
+        <li><a href="maze.html" class="button large">Try the Maze Generator</a></li>
+      </ul>
+    </article>
+
+</div>
+
+    <div id="copyright">
+      <ul>
+        <li class="under-construction">Site under construction</li>
+        <li>&copy; Isik Evirgen | 2004 - 2026</li>
+        <li><a href="mailto:isikevirgen@gmail.com">isikevirgen@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Fixed scroll-to-top button in right corner -->
+<a href="#intro" class="scroll-up-right scrolly" id="scrollUpRight">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+<script>
+$(document).ready(function() {
+  // Show/hide the scroll-up button based on scroll position
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 500) {
+      $('#scrollUpRight').addClass('show');
+    } else {
+      $('#scrollUpRight').removeClass('show');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

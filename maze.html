@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GBS0W2YECL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GBS0W2YECL');
+</script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow" />
+<title>Maze Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans Pro',sans-serif;background:#FAFAF8;color:#2a2a2a;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.app{max-width:860px;width:100%}
+h1{font-weight:900;font-size:2rem;letter-spacing:0.04em;text-align:center;margin-bottom:0.15rem}
+.subtitle{text-align:center;color:#888;font-size:0.95rem;margin-bottom:1.5rem;font-weight:400}
+.control-row{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;align-items:center;margin-bottom:0.75rem}
+.control-row label{font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#999;margin-right:0.15rem}
+.pill{font-family:inherit;font-weight:600;font-size:0.8rem;padding:0.4rem 0.9rem;border:2px solid #ddd;border-radius:20px;background:#fff;color:#777;cursor:pointer;transition:all 0.2s}
+.pill:hover{border-color:#aaa;color:#444}
+.pill.active{border-color:#2a2a2a;background:#2a2a2a;color:#fff}
+.pill.diff-0.active{border-color:#2ecc71;background:#2ecc71;color:#fff}
+.pill.diff-1.active{border-color:#f39c12;background:#f39c12;color:#fff}
+.pill.diff-2.active{border-color:#e67e22;background:#e67e22;color:#fff}
+.pill.diff-3.active{border-color:#e74c3c;background:#e74c3c;color:#fff}
+.canvas-wrap{background:#f5f0e0;border-radius:14px;padding:16px;box-shadow:0 6px 30px rgba(0,0,0,0.1);margin:1rem 0;overflow:hidden;display:flex;justify-content:center}
+#mazeCanvas{display:block;max-width:100%;height:auto;border-radius:6px}
+.actions{display:flex;gap:0.6rem;justify-content:center;margin-bottom:0.75rem;flex-wrap:wrap}
+.btn{font-family:inherit;font-weight:700;font-size:0.85rem;padding:0.55rem 1.3rem;border:2px solid #2a2a2a;border-radius:8px;background:#fff;color:#2a2a2a;cursor:pointer;transition:all 0.2s;letter-spacing:0.02em}
+.btn:hover{background:#2a2a2a;color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.btn.active{background:#7C3AED;border-color:#7C3AED;color:#fff}
+.legend{display:flex;gap:1.2rem;justify-content:center;font-size:0.75rem;color:#999;margin-top:0.25rem}
+.legend span{display:flex;align-items:center;gap:0.3rem}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.s{background:#F97316}.dot.e{background:#7C3AED}.dot.p{background:#00D4FF}
+@media(max-width:600px){h1{font-size:1.5rem}.pill{font-size:0.72rem;padding:0.35rem 0.7rem}.canvas-wrap{padding:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Maze Generator</h1>
+  <p class="subtitle" style="color:#aaa;font-size:0.8rem;">&copy; isikevirgen</p>
+
+  <div class="control-row">
+    <label>Shape:</label>
+    <button class="pill shape active" data-shape="rectangle">▭ Rectangle</button>
+    <button class="pill shape" data-shape="circle">○ Circle</button>
+    <button class="pill shape" data-shape="heart">♥ Heart</button>
+    <button class="pill shape" data-shape="triangle">△ Triangle</button>
+  </div>
+
+  <div class="control-row">
+    <label>Difficulty:</label>
+    <button class="pill diff diff-0 active" data-diff="0">Easy</button>
+    <button class="pill diff diff-1" data-diff="1">Medium</button>
+    <button class="pill diff diff-2" data-diff="2">Hard</button>
+    <button class="pill diff diff-3" data-diff="3">Expert</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="btnNew">↻ New Maze</button>
+    <button class="btn" id="btnSolve">◈ Show Solution</button>
+  </div>
+
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="mazeCanvas"></canvas>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot s"></span> Start</span>
+    <span><span class="dot e"></span> End</span>
+    <span><span class="dot p"></span> Solution</span>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ─── CONFIG ─────────────────────────────────────────
+var WALL_COLOR = '#2a2a2a';
+var WALL_WIDTH = 7;
+var WOBBLE = 3.2;
+var PATH_WIDTH = 3.5;
+var ARROW_SIZE = 7;
+var START_COLOR = '#F97316';
+var END_COLOR = '#7C3AED';
+var PATH_COLOR = '#00D4FF';
+
+var PALETTES = [
+  '#F7F1E8','#E6EFE6','#EBE4F0','#F0E6E6','#E4ECF0',
+  '#F5F0E0','#E4F0EB','#F5EDE0','#EDE8E4','#F0EBE4',
+  '#E8E4F0','#F0F0E6','#F0E8E0','#E4E8E8','#F2EDE6'
+];
+
+var canvas = document.getElementById('mazeCanvas');
+var ctx = canvas.getContext('2d');
+var wrap = document.getElementById('canvasWrap');
+
+var currentShape = 'rectangle';
+var currentDiff = 1;
+var showSolution = false;
+var currentMaze = null;
+var currentPalette = PALETTES[5];
+var wobbleCache = {};
+
+// ─── UTILITIES ──────────────────────────────────────
+function rand(a,b){ return a + Math.random()*(b-a); }
+function shuffle(arr){
+  for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}
+  return arr;
+}
+function pickPalette(){ return PALETTES[Math.floor(Math.random()*PALETTES.length)]; }
+function wallKey(a,b){ return Math.min(a,b)+':'+Math.max(a,b); }
+
+// Wobble: get cached wobble points for a wall segment
+function getWobbleLinePoints(x1,y1,x2,y2){
+  var key = Math.round(x1)+','+Math.round(y1)+','+Math.round(x2)+','+Math.round(y2);
+  if(wobbleCache[key]) return wobbleCache[key];
+  var segs=3, pts=[];
+  var dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+  var nx=-dy/len, ny=dx/len;
+  for(var i=0;i<=segs;i++){
+    var t=i/segs, px=x1+dx*t, py=y1+dy*t;
+    if(i>0&&i<segs){
+      var off=(Math.random()-0.5)*2*WOBBLE;
+      px+=nx*off; py+=ny*off;
+    } else {
+      px+=(Math.random()-0.5)*WOBBLE*0.35;
+      py+=(Math.random()-0.5)*WOBBLE*0.35;
+    }
+    pts.push({x:px,y:py});
+  }
+  wobbleCache[key]=pts;
+  return pts;
+}
+
+function getWobbleArcPoints(cx,cy,radius,a1,a2){
+  var key='A'+Math.round(cx)+','+Math.round(cy)+','+Math.round(radius*10)+','+Math.round(a1*1000)+','+Math.round(a2*1000);
+  if(wobbleCache[key]) return wobbleCache[key];
+  var arcLen=Math.abs(a2-a1)*radius;
+  var segs=Math.max(3,Math.ceil(arcLen/12));
+  var pts=[];
+  for(var i=0;i<=segs;i++){
+    var t=i/segs, angle=a1+(a2-a1)*t;
+    var r=radius;
+    if(i>0&&i<segs) r+=(Math.random()-0.5)*2*WOBBLE;
+    else r+=(Math.random()-0.5)*WOBBLE*0.35;
+    pts.push({x:cx+r*Math.cos(angle), y:cy+r*Math.sin(angle)});
+  }
+  wobbleCache[key]=pts;
+  return pts;
+}
+
+function drawWobblePath(pts,color,width){
+  if(pts.length<2) return;
+  ctx.beginPath();
+  ctx.strokeStyle=color;
+  ctx.lineWidth=width;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.moveTo(pts[0].x,pts[0].y);
+  for(var i=1;i<pts.length;i++){
+    var p=pts[i-1],c=pts[i];
+    var mx=(p.x+c.x)/2, my=(p.y+c.y)/2;
+    ctx.quadraticCurveTo(p.x,p.y,mx,my);
+  }
+  ctx.lineTo(pts[pts.length-1].x, pts[pts.length-1].y);
+  ctx.stroke();
+}
+
+function drawLine(x1,y1,x2,y2){
+  drawWobblePath(getWobbleLinePoints(x1,y1,x2,y2), WALL_COLOR, WALL_WIDTH);
+}
+function drawArc(cx,cy,r,a1,a2){
+  drawWobblePath(getWobbleArcPoints(cx,cy,r,a1,a2), WALL_COLOR, WALL_WIDTH);
+}
+
+function drawArrow(x,y,angle,color){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(angle);
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(ARROW_SIZE,0);
+  ctx.lineTo(-ARROW_SIZE*0.65,-ARROW_SIZE*0.55);
+  ctx.lineTo(-ARROW_SIZE*0.65,ARROW_SIZE*0.55);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawMarker(x,y,color,r){
+  ctx.beginPath();
+  ctx.arc(x,y,r||6,0,Math.PI*2);
+  ctx.fillStyle=color;
+  ctx.fill();
+}
+
+// ─── GENERIC GENERATION (Recursive Backtracker) ────
+function generate(numCells,adjList,startCell){
+  var openWalls = {};
+  var visited = new Uint8Array(numCells);
+  var stack = [];
+  var cur = startCell;
+  visited[cur]=1;
+  var count=1;
+  while(count<numCells){
+    var nbrs=[];
+    for(var i=0;i<adjList[cur].length;i++){
+      if(!visited[adjList[cur][i]]) nbrs.push(adjList[cur][i]);
+    }
+    if(nbrs.length>0){
+      var next=nbrs[Math.floor(Math.random()*nbrs.length)];
+      openWalls[wallKey(cur,next)]=true;
+      stack.push(cur);
+      visited[next]=1;
+      count++;
+      cur=next;
+    } else if(stack.length>0){
+      cur=stack.pop();
+    } else break;
+  }
+  return openWalls;
+}
+
+// ─── GENERIC SOLVE (BFS) ───────────────────────────
+function solve(numCells,adjList,start,end,openWalls){
+  var prev=new Int32Array(numCells).fill(-1);
+  var visited=new Uint8Array(numCells);
+  var queue=[start];
+  visited[start]=1;
+  while(queue.length>0){
+    var cur=queue.shift();
+    if(cur===end) break;
+    for(var i=0;i<adjList[cur].length;i++){
+      var nb=adjList[cur][i];
+      if(!visited[nb]&&openWalls[wallKey(cur,nb)]){
+        visited[nb]=1;
+        prev[nb]=cur;
+        queue.push(nb);
+      }
+    }
+  }
+  var path=[];
+  var c=end;
+  while(c!==-1){path.push(c);c=prev[c];}
+  return path.reverse();
+}
+
+// ─── SOLUTION PATH RENDERER ────────────────────────
+function drawSolutionPath(cellPos,path){
+  if(path.length<2) return;
+  ctx.beginPath();
+  ctx.strokeStyle=PATH_COLOR;
+  ctx.lineWidth=PATH_WIDTH;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.globalAlpha=0.75;
+  var p0=cellPos[path[0]];
+  ctx.moveTo(p0.x,p0.y);
+  for(var i=1;i<path.length;i++){
+    var p=cellPos[path[i]];
+    var pp=cellPos[path[i-1]];
+    var mx=(pp.x+p.x)/2+(Math.random()-0.5)*WOBBLE*0.4;
+    var my=(pp.y+p.y)/2+(Math.random()-0.5)*WOBBLE*0.4;
+    ctx.quadraticCurveTo(mx,my,p.x,p.y);
+  }
+  ctx.stroke();
+  ctx.globalAlpha=1;
+}
+
+// ─── RECTANGLE MAZE ────────────────────────────────
+function buildRectMaze(diff,W,H){
+  var configs=[{c:6,r:4},{c:12,r:8},{c:18,r:12},{c:26,r:17}];
+  var cfg=configs[diff];
+  var cols=cfg.c, rows=cfg.r;
+  var pad=22;
+  var cellW=(W-pad*2)/cols, cellH=(H-pad*2)/rows;
+  var N=cols*rows;
+  var adj=[];
+  for(var i=0;i<N;i++){
+    var c=i%cols, r=Math.floor(i/cols), nb=[];
+    if(r>0) nb.push(i-cols);
+    if(c<cols-1) nb.push(i+1);
+    if(r<rows-1) nb.push(i+cols);
+    if(c>0) nb.push(i-1);
+    adj.push(nb);
+  }
+  var startCell=0, endCell=N-1;
+  var openWalls=generate(N,adj,startCell);
+  var solution=solve(N,adj,startCell,endCell,openWalls);
+  var cellPos=[];
+  for(var i=0;i<N;i++){
+    var c=i%cols,r=Math.floor(i/cols);
+    cellPos.push({x:pad+c*cellW+cellW/2, y:pad+r*cellH+cellH/2});
+  }
+  function isOpen(a,b){return !!openWalls[wallKey(a,b)];}
+  return {
+    cellPos:cellPos, solution:solution,
+    startPos:{x:pad+cellW/2, y:pad-8}, startAngle:Math.PI/2,
+    endPos:{x:pad+(cols-1)*cellW+cellW/2, y:pad+rows*cellH+8}, endAngle:Math.PI/2,
+    render:function(){
+      for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+        var i=r*cols+c;
+        var x=pad+c*cellW, y=pad+r*cellH;
+        // Top wall
+        if(r===0){if(!(c===0))drawLine(x,y,x+cellW,y);}
+        else if(!isOpen(i,i-cols))drawLine(x,y,x+cellW,y);
+        // Left wall
+        if(c===0)drawLine(x,y,x,y+cellH);
+        else if(!isOpen(i,i-1))drawLine(x,y,x,y+cellH);
+      }
+      // Bottom border
+      for(var c=0;c<cols;c++){
+        if(c===cols-1) continue; // exit gap
+        var x=pad+c*cellW,y=pad+rows*cellH;
+        drawLine(x,y,x+cellW,y);
+      }
+      // Right border
+      for(var r=0;r<rows;r++){
+        var x=pad+cols*cellW,y=pad+r*cellH;
+        drawLine(x,y,x,y+cellH);
+      }
+    }
+  };
+}
+
+// ─── CIRCLE MAZE ───────────────────────────────────
+function buildCircleMaze(diff,W,H){
+  var ringCounts=[3,5,7,10];
+  var numRings=ringCounts[diff];
+  var cx=W/2, cy=H/2;
+  var maxR=Math.min(W,H)/2-20;
+  var ringW=maxR/(numRings+1);
+
+  // Compute sectors per ring
+  var sectors=[1]; // ring 0 = center
+  var cur=6;
+  for(var r=1;r<=numRings;r++){
+    sectors.push(cur);
+    if(r<numRings){
+      var outerR=(r+2)*ringW;
+      var arcLen=2*Math.PI*outerR/cur;
+      if(arcLen>ringW*2.2) cur*=2;
+    }
+  }
+
+  // Cell indexing
+  var baseIdx=[0]; // center at 0
+  var total=1;
+  for(var r=1;r<=numRings;r++){baseIdx.push(total);total+=sectors[r];}
+
+  function cellId(ring,sec){
+    if(ring===0) return 0;
+    return baseIdx[ring]+sec;
+  }
+
+  // Build adjacency
+  var adj=[];
+  for(var i=0;i<total;i++) adj.push([]);
+
+  for(var r=1;r<=numRings;r++){
+    for(var s=0;s<sectors[r];s++){
+      var me=cellId(r,s);
+      // CW neighbor
+      var cw=cellId(r,(s+1)%sectors[r]);
+      if(adj[me].indexOf(cw)===-1){adj[me].push(cw);adj[cw].push(me);}
+      // Inner neighbor
+      if(r===1){
+        if(adj[me].indexOf(0)===-1){adj[me].push(0);adj[0].push(me);}
+      } else {
+        var innerSec=Math.floor(s*sectors[r-1]/sectors[r]);
+        var inner=cellId(r-1,innerSec);
+        if(adj[me].indexOf(inner)===-1){adj[me].push(inner);adj[inner].push(me);}
+      }
+    }
+  }
+
+  var startSector=0; // entry at sector 0 of outermost ring (top)
+  var startCell=cellId(numRings,startSector);
+  var endCell=0; // center
+
+  var openWalls=generate(total,adj,startCell);
+  var solution=solve(total,adj,startCell,endCell,openWalls);
+
+  // Cell positions
+  var cellPos=[];
+  cellPos.push({x:cx,y:cy}); // center
+  for(var r=1;r<=numRings;r++){
+    var midR=(r+0.5)*ringW;
+    for(var s=0;s<sectors[r];s++){
+      var angle=2*Math.PI*s/sectors[r]+Math.PI/sectors[r];
+      // Rotate so sector 0 is at top
+      angle-=Math.PI/2;
+      cellPos.push({x:cx+midR*Math.cos(angle), y:cy+midR*Math.sin(angle)});
+    }
+  }
+
+  function isOpen(a,b){return !!openWalls[wallKey(a,b)];}
+
+  // Entry gap: midpoint of sector 0 on outermost ring
+  var outerR=(numRings+1)*ringW;
+  var gapMidAngle=-Math.PI/2+Math.PI/sectors[numRings];
+
+  return {
+    cellPos:cellPos, solution:solution,
+    startPos:{x:cx+(outerR+10)*Math.cos(gapMidAngle), y:cy+(outerR+10)*Math.sin(gapMidAngle)},
+    startAngle:gapMidAngle+Math.PI,
+    endPos:{x:cx,y:cy}, endAngle:0, endIsCenter:true,
+    render:function(){
+      // Ring arcs (inner walls of each cell)
+      for(var r=1;r<=numRings;r++){
+        var radius=r*ringW;
+        for(var s=0;s<sectors[r];s++){
+          var me=cellId(r,s);
+          var inner;
+          if(r===1) inner=0;
+          else inner=cellId(r-1,Math.floor(s*sectors[r-1]/sectors[r]));
+          if(!isOpen(me,inner)){
+            var a1=2*Math.PI*s/sectors[r]-Math.PI/2;
+            var a2=2*Math.PI*(s+1)/sectors[r]-Math.PI/2;
+            drawArc(cx,cy,radius,a1,a2);
+          }
+        }
+      }
+      // Radial walls (CW boundary of each cell)
+      for(var r=1;r<=numRings;r++){
+        for(var s=0;s<sectors[r];s++){
+          var me=cellId(r,s);
+          var cw=cellId(r,(s+1)%sectors[r]);
+          if(!isOpen(me,cw)){
+            var angle=2*Math.PI*(s+1)/sectors[r]-Math.PI/2;
+            var r1=r*ringW, r2=(r+1)*ringW;
+            drawLine(cx+r1*Math.cos(angle),cy+r1*Math.sin(angle),
+                     cx+r2*Math.cos(angle),cy+r2*Math.sin(angle));
+          }
+        }
+      }
+      // Outer boundary (with entry gap)
+      var outerR=(numRings+1)*ringW;
+      var gapStart=2*Math.PI*startSector/sectors[numRings]-Math.PI/2;
+      var gapEnd=2*Math.PI*(startSector+1)/sectors[numRings]-Math.PI/2;
+      // Draw outer circle in two arcs, skipping the entry gap
+      drawArc(cx,cy,outerR,gapEnd,gapStart+2*Math.PI);
+    }
+  };
+}
+
+// ─── MASKED RECTANGLE MAZES (Heart, Triangle) ──────
+function pointInPolygon(px,py,poly){
+  var inside=false;
+  for(var i=0,j=poly.length-1;i<poly.length;j=i++){
+    var xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];
+    if((yi>py)!==(yj>py)&&px<(xj-xi)*(py-yi)/(yj-yi)+xi) inside=!inside;
+  }
+  return inside;
+}
+
+var SHAPE_TESTS={
+  heart:function(nx,ny){
+    var x=nx*1.15, y=-(ny-0.2)*1.15;
+    var t=x*x+y*y-1;
+    return t*t*t-x*x*y*y*y<=0;
+  },
+  triangle:function(nx,ny){
+    var h=0.95;
+    return pointInPolygon(nx,ny,[[0,h],[-h,-h*0.55],[h,-h*0.55]]);
+  }
+};
+
+function buildMaskedMaze(shape,diff,W,H){
+  var grids=[10,16,22,30];
+  var gsize=grids[diff];
+  var pad=22;
+  var usableW=W-pad*2, usableH=H-pad*2;
+  var cellS=Math.min(usableW/gsize, usableH/gsize);
+  var cols=Math.floor(usableW/cellS);
+  var rows=Math.floor(usableH/cellS);
+  var offX=pad+(usableW-cols*cellS)/2;
+  var offY=pad+(usableH-rows*cellS)/2;
+
+  var testFn=SHAPE_TESTS[shape];
+
+  // Determine active cells
+  var active=new Uint8Array(cols*rows);
+  var activeCells=[];
+  var idxMap=new Int32Array(cols*rows).fill(-1);
+  for(var r=0;r<rows;r++){
+    for(var c=0;c<cols;c++){
+      var nx=(c+0.5)/cols*2-1;
+      var ny=(r+0.5)/rows*2-1;
+      if(testFn(nx,ny)){
+        idxMap[r*cols+c]=activeCells.length;
+        activeCells.push(r*cols+c);
+        active[r*cols+c]=1;
+      }
+    }
+  }
+
+  var N=activeCells.length;
+  if(N<4) return buildRectMaze(diff,W,H); // fallback
+
+  // Find largest connected component
+  var adj=[];
+  for(var i=0;i<N;i++) adj.push([]);
+  for(var i=0;i<N;i++){
+    var gi=activeCells[i];
+    var c=gi%cols, r=Math.floor(gi/cols);
+    var dirs=[[0,-1],[1,0],[0,1],[-1,0]];
+    for(var d=0;d<4;d++){
+      var nc=c+dirs[d][0], nr=r+dirs[d][1];
+      if(nc>=0&&nc<cols&&nr>=0&&nr<rows&&active[nr*cols+nc]){
+        var ni=idxMap[nr*cols+nc];
+        if(adj[i].indexOf(ni)===-1){adj[i].push(ni);adj[ni].push(i);}
+      }
+    }
+  }
+
+  // BFS to find largest component
+  var compId=new Int32Array(N).fill(-1);
+  var bestComp=-1,bestSize=0,compCount=0;
+  for(var i=0;i<N;i++){
+    if(compId[i]!==-1) continue;
+    var cc=compCount++;
+    var q=[i],size=0;
+    compId[i]=cc;
+    while(q.length>0){
+      var cur=q.shift(); size++;
+      for(var j=0;j<adj[cur].length;j++){
+        if(compId[adj[cur][j]]===-1){compId[adj[cur][j]]=cc;q.push(adj[cur][j]);}
+      }
+    }
+    if(size>bestSize){bestSize=size;bestComp=cc;}
+  }
+
+  // Filter to largest component
+  var filtCells=[], filtMap={};
+  var newAdj=[];
+  for(var i=0;i<N;i++){
+    if(compId[i]===bestComp){
+      filtMap[i]=filtCells.length;
+      filtCells.push(i);
+    }
+  }
+  for(var i=0;i<filtCells.length;i++){
+    var nb=[];
+    var oldI=filtCells[i];
+    for(var j=0;j<adj[oldI].length;j++){
+      if(filtMap[adj[oldI][j]]!==undefined) nb.push(filtMap[adj[oldI][j]]);
+    }
+    newAdj.push(nb);
+  }
+
+  var M=filtCells.length;
+
+  // Find start (leftmost edge) and end (rightmost edge)
+  // Strong column bias so entry/exit are on left/right sides
+  var startI=0,endI=0;
+  var bestStartScore=-Infinity, bestEndScore=-Infinity;
+  for(var i=0;i<M;i++){
+    var oi=filtCells[i];
+    var gi=activeCells[oi];
+    var c=gi%cols, r=Math.floor(gi/cols);
+    // Prefer cells closest to vertical center for clean side entry
+    var midR=rows/2;
+    var centerBonus=-Math.abs(r-midR)*0.3;
+    var ss=-c*3+centerBonus; // strong left bias
+    var es=c*3+centerBonus;  // strong right bias
+    if(ss>bestStartScore){bestStartScore=ss;startI=i;}
+    if(es>bestEndScore){bestEndScore=es;endI=i;}
+  }
+
+  var openWalls=generate(M,newAdj,startI);
+  var solution=solve(M,newAdj,startI,endI,openWalls);
+
+  var cellPos=[];
+  for(var i=0;i<M;i++){
+    var oi=filtCells[i];
+    var gi=activeCells[oi];
+    var c=gi%cols, r=Math.floor(gi/cols);
+    cellPos.push({x:offX+c*cellS+cellS/2, y:offY+r*cellS+cellS/2});
+  }
+
+  function isOpen(a,b){return !!openWalls[wallKey(a,b)];}
+
+  // Find border gap directions for start and end cells
+  // For start: pick leftmost border direction (prefer left=3, then top=0)
+  // For end: pick rightmost border direction (prefer right=1, then bottom=2)
+  var dirLabels=[[0,-1],[1,0],[0,1],[-1,0]]; // top,right,bottom,left
+  function findBorderDir(cellIdx, preferOrder){
+    var oi=filtCells[cellIdx];
+    var gi=activeCells[oi];
+    var cc=gi%cols, rr=Math.floor(gi/cols);
+    for(var p=0;p<preferOrder.length;p++){
+      var d=preferOrder[p];
+      var nc=cc+dirLabels[d][0], nr=rr+dirLabels[d][1];
+      var ngi=nr*cols+nc;
+      var ni=(nc>=0&&nc<cols&&nr>=0&&nr<rows&&active[ngi])?idxMap[ngi]:-1;
+      var nfi=(ni!==-1&&filtMap[ni]!==undefined)?filtMap[ni]:-1;
+      if(nfi===-1) return d; // this is a border wall
+    }
+    return -1;
+  }
+  var startGapDir=findBorderDir(startI,[3,0,2,1]); // prefer left, top
+  var endGapDir=findBorderDir(endI,[1,2,0,3]);     // prefer right, bottom
+
+  // Compute arrow positions based on gap direction
+  var startCPos=cellPos[startI];
+  var endCPos=cellPos[endI];
+  var gapOffsets=[[0,-1],[1,0],[0,1],[-1,0]]; // dx,dy per direction
+  var sOff=gapOffsets[startGapDir]||[0,-1];
+  var eOff=gapOffsets[endGapDir]||[1,0];
+  var sArrowPos={x:startCPos.x+sOff[0]*cellS*0.7, y:startCPos.y+sOff[1]*cellS*0.7};
+  var eArrowPos={x:endCPos.x+eOff[0]*cellS*0.7, y:endCPos.y+eOff[1]*cellS*0.7};
+  // Start arrow points INTO maze, End arrow points OUT of maze
+  // dir 0=top, 1=right, 2=bottom, 3=left
+  var inwardAngles=[Math.PI/2, Math.PI, -Math.PI/2, 0];
+  var outwardAngles=[-Math.PI/2, 0, Math.PI/2, Math.PI];
+
+  return {
+    cellPos:cellPos, solution:solution,
+    startPos:sArrowPos,
+    startAngle:inwardAngles[startGapDir]||0,
+    endPos:eArrowPos,
+    endAngle:outwardAngles[endGapDir]||0,
+    render:function(){
+      for(var i=0;i<M;i++){
+        var oi=filtCells[i];
+        var gi=activeCells[oi];
+        var c=gi%cols, r=Math.floor(gi/cols);
+        var x=offX+c*cellS, y=offY+r*cellS;
+        var dirs=[[0,-1],[1,0],[0,1],[-1,0]];
+        var walls=[
+          [x,y,x+cellS,y],         // top
+          [x+cellS,y,x+cellS,y+cellS], // right
+          [x,y+cellS,x+cellS,y+cellS], // bottom
+          [x,y,x,y+cellS]          // left
+        ];
+        for(var d=0;d<4;d++){
+          var nc=c+dirs[d][0], nr=r+dirs[d][1];
+          var ngi=nr*cols+nc;
+          var ni=(nc>=0&&nc<cols&&nr>=0&&nr<rows&&active[ngi])?idxMap[ngi]:-1;
+          var nfi=(ni!==-1&&filtMap[ni]!==undefined)?filtMap[ni]:-1;
+          if(nfi===-1){
+            // Border wall — skip entry/exit gaps
+            if(i===startI && d===startGapDir) continue;
+            if(i===endI && d===endGapDir) continue;
+            drawLine(walls[d][0],walls[d][1],walls[d][2],walls[d][3]);
+          } else if(!isOpen(i,nfi) && i<nfi){
+            // Internal closed wall (draw once)
+            drawLine(walls[d][0],walls[d][1],walls[d][2],walls[d][3]);
+          }
+        }
+      }
+    }
+  };
+}
+
+// ─── BUILDER DISPATCH ──────────────────────────────
+var SHAPE_RATIOS={rectangle:1.44,circle:1,heart:0.92,triangle:1.1};
+
+function buildMaze(){
+  wobbleCache={};
+  currentPalette=pickPalette();
+  showSolution=false;
+  document.getElementById('btnSolve').textContent='◈ Show Solution';
+  document.getElementById('btnSolve').classList.remove('active');
+
+  // Resize canvas
+  var maxW=Math.min(820, wrap.clientWidth-32);
+  var ratio=SHAPE_RATIOS[currentShape]||1;
+  var cw=maxW, ch=Math.round(maxW/ratio);
+  var dpr=window.devicePixelRatio||1;
+  canvas.style.width=cw+'px';
+  canvas.style.height=ch+'px';
+  canvas.width=cw*dpr;
+  canvas.height=ch*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  if(currentShape==='rectangle') currentMaze=buildRectMaze(currentDiff,cw,ch);
+  else if(currentShape==='circle') currentMaze=buildCircleMaze(currentDiff,cw,ch);
+  else currentMaze=buildMaskedMaze(currentShape,currentDiff,cw,ch);
+
+  render();
+}
+
+function render(){
+  if(!currentMaze) return;
+  var dpr=window.devicePixelRatio||1;
+  var w=canvas.width/dpr, h=canvas.height/dpr;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=currentPalette;
+  ctx.fillRect(0,0,w,h);
+
+  currentMaze.render();
+
+  // Start arrow
+  drawArrow(currentMaze.startPos.x, currentMaze.startPos.y, currentMaze.startAngle, START_COLOR);
+  // End marker
+  if(currentMaze.endIsCenter){
+    drawMarker(currentMaze.endPos.x, currentMaze.endPos.y, END_COLOR, 5);
+  } else {
+    drawArrow(currentMaze.endPos.x, currentMaze.endPos.y, currentMaze.endAngle, END_COLOR);
+  }
+
+  if(showSolution){
+    drawSolutionPath(currentMaze.cellPos, currentMaze.solution);
+  }
+}
+
+// ─── EVENT HANDLERS ────────────────────────────────
+document.querySelectorAll('.pill.shape').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.pill.shape').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    currentShape=btn.dataset.shape;
+    buildMaze();
+  });
+});
+
+document.querySelectorAll('.pill.diff').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.pill.diff').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    currentDiff=parseInt(btn.dataset.diff);
+    buildMaze();
+  });
+});
+
+document.getElementById('btnNew').addEventListener('click',buildMaze);
+
+document.getElementById('btnSolve').addEventListener('click',function(){
+  showSolution=!showSolution;
+  this.textContent=showSolution?'◈ Hide Solution':'◈ Show Solution';
+  this.classList.toggle('active',showSolution);
+  render();
+});
+
+window.addEventListener('resize',function(){
+  if(currentMaze) buildMaze();
+});
+
+// ─── INIT ──────────────────────────────────────────
+buildMaze();
+
+})();
+</script>
+</body>
+</html>

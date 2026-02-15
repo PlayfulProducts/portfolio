@@ -1,0 +1,19 @@
+# Claude Code
+.claude/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Unused images backup
+_unused_images/
+assets/images/unused/
+
+# Design source files
+*.af
+*.psd
+*.ai
+*.indd
+*.sketch
+*.fig
+*.xd

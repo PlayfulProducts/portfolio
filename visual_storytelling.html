@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBS0W2YECL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GBS0W2YECL');
+  </script>
+  <title>Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+  <style>
+    /* Style for the right corner up arrow */
+    a.scroll-up-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: transparent;
+      color: #3498db !important;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none !important;
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    a.scroll-up-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    a.scroll-up-right:hover {
+      background: #3498db !important;
+      border-color: #3498db;
+      transform: translateY(-3px);
+      color: white !important;
+    }
+    
+    a.scroll-up-right i {
+      font-size: 18px;
+      color: inherit !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Video Background -->
+<video autoplay muted loop playsinline id="bgvideo">
+  <source src="assets/videos/isik_portfolio_video.mp4" type="video/mp4">
+</video>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Check if this is the first visit to the site
+  const isFirstVisit = !sessionStorage.getItem('visited');
+  
+  if (isFirstVisit) {
+    // First visit - start at top to show video intro
+    sessionStorage.setItem('visited', 'true');
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+  } else {
+    // Navigation from tabs - start at 700px down
+    window.scrollTo({
+      top: 830,
+      behavior: "instant"
+    });
+  }
+});
+
+// Add click handlers to navigation links
+document.addEventListener("DOMContentLoaded", function() {
+  const navLinks = document.querySelectorAll('#nav a');
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Set the visited flag so next page loads at 700px
+      sessionStorage.setItem('visited', 'true');
+    });
+  });
+});
+</script>
+
+  <!-- Wrapper -->
+  <div id="wrapper" class="fade-in">
+
+    <!-- Intro -->
+    <div id="intro">
+     <p class="subtitle">Senior designer building visual communication systems for brands, culture, education, and research.</p>
+        <ul class="actions">
+        <li><a href="#main" class="button icon solid solo fas fa-arrow-down scrolly"><span class="label">Continue</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+      <a href="index.html" class="logo">Isik Evirgen</a>
+    </header>
+
+    <!-- Nav -->
+<nav id="nav">
+  <ul class="links">
+    <li class="active"><a href="visual_storytelling.html">Visual Storytelling</a></li>
+    <li><a href="index.html">Communication & Culture</a></li>
+    <li><a href="brand_commercial.html">Brand & Commercial</a></li>
+    <li><a href="playful_instruments.html">Percussion & Play</a></li>
+    <li><a href="digital_web_interfaces.html">Interfaces</a></li>
+    <li><a href="ai_concepts.html">AI Concepts</a></li>
+  </ul>
+</nav>
+
+
+
+
+    <!-- Main -->
+   <div id="main">
+
+  <!-- Project 1 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Young Researchers</h2>
+      <span class="date">2015 - 2021</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="youngresearchers.html" class="image main" style="padding:0;">
+  <img src="assets/images/youngresearchers.png" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/yr_1.jpg" alt="">
+    <img src="assets/images/yr_2.jpg" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+    Young Researchers is a children’s educational magazine designed to spark curiosity and analytical thinking in 8-12‑year‑olds. It features STEM‑focused articles, hands‑on activities, colorful infographics, illustrations, and puzzles that guide readers through scientific concepts and creative challenges. 
+  </p>
+  <ul class="actions special">
+    <li><a href="youngresearchers.html" class="button large">Story</a></li>
+  </ul>
+</article>
+
+<!-- pOSTERS -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Posters</h2>
+<span class="date">2015 - 2021</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="posters.html" class="image main" style="padding:0;">
+  <img src="assets/images/poster_solarsystem_isik.jpg" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/poster_isik_detail1.png" alt="">
+    <img src="assets/images/poster_isik_detail2.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+  Designed playful, visually rich posters for both the Young Researchers magazine and independent educational workshops. Blended bold colors, engaging illustrations, and clear layouts to spark curiosity, invite interaction, and make learning topics feel exciting and accessible.
+  </p>
+  <ul class="actions special">
+    <li><a href="posters.html" class="button large">Story</a></li>
+  </ul>
+</article>
+ <!-- Project 4 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Educational Games</h2>
+    <span class="date">2015 - 2021</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="games.html" class="image main" style="padding:0;">
+  <img src="assets/images/games_isik.png" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/games_isik_detail3.png" alt="">
+    <img src="assets/images/games_isik_detail2.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+    Created fun, interactive board and paper-based games with colorful illustrations and playful layouts for the Young Researchers magazine. Designed to spark curiosity and hands-on learning, the games encourage exploration, problem solving, and collaboration through activities.
+  </p>
+  <ul class="actions special">
+    <li><a href="games.html" class="button large">Story</a></li>
+  </ul>
+</article>
+<!-- Teacher as Researcher -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Teacher as Researcher</h2>
+      <span class="date">2018 - 2021</span>
+  </header>
+
+  <!-- Main Image -->
+  <img src="assets/images/Teacherasresearcherjournal.png" alt="" style="width:100%; height:auto; display:block;" />
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/teacherjournal_detail3.jpg" alt="">
+    <img src="assets/images/Teacherasresearcherjournal_detail2.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+Teacher as Researcher is an educational journal empowering teachers with research based insights, practical tools, and inspiring examples. I designed the full publication including layouts, typography, and visual hierarchy, and produced content with original and commissioned illustrations, photography, and infographics. These designs remain in use, giving the journal a consistent, engaging, and accessible look.
+
+</article>
+<!-- Project 5 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Activity Books</h2>
+    <span class="date">2015 - 2020</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="activitybooks.html" class="image main" style="padding:0;">
+  <img src="assets/images/activitybooks_isik_44.jpg" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/activitybooks_isik_detail1.png" alt="">
+    <img src="assets/images/activitybook_isik_detail2.png" alt="">
+  </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+   Interactive workbooks combining hands-on activities with educational content for Young Researchers magazine. Features mazes, coloring pages, cut-out crafts, word puzzles, drawing exercises, and DIY experiments. Designed to extend learning beyond reading through tactile engagement and creative problem-solving.
+  </p>
+  <ul class="actions special">
+    <li><a href="activitybooks.html" class="button large">Story</a></li>
+  </ul>
+</article>
+
+<!-- Project 6 -->
+<article class="post featured">
+  <header class="major">
+    <h2 class="h11" style="font-size:2rem;">Paper Dolls</h2>
+    <span class="date">2024 - 2025</span>
+  </header>
+
+  <!-- Main Image -->
+ <a href="https://www.playfulproducts.se" class="image main" style="padding:0;">
+  <img src="assets/images/paperdoll_portfolio_isik.png" alt="" style="width:100%; height:auto; display:block;" />
+  </a>
+<!-- Two Smaller Images -->
+  <div class="small-images">
+    <img src="assets/images/doll_isik_detail4.png" alt="">
+    <img src="assets/images/doll_isik_detail2.png" alt="">
+ </div>
+
+  <p class="h12" style="color:black; margin-top:1rem;">
+Hand-illustrated characters with mix-and-match outfits, accessories, and themed collections. Created as downloadable printables for creative play, featuring unique artistic styles and diverse character designs. Independent product line combining illustration, character design, and interactive paper craft.
+</p>
+</article>
+
+
+</div>
+    <div id="copyright">
+      <ul>
+        <li class="under-construction">Site under construction</li>
+        <li>&copy; Isik Evirgen | 2004 - 2026</li>
+        <li><a href="mailto:isikevirgen@gmail.com">isikevirgen@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Fixed scroll-to-top button in right corner -->
+<a href="#intro" class="scroll-up-right scrolly" id="scrollUpRight">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+<script>
+$(document).ready(function() {
+  // Show/hide the scroll-up button based on scroll position
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 500) {
+      $('#scrollUpRight').addClass('show');
+    } else {
+      $('#scrollUpRight').removeClass('show');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
