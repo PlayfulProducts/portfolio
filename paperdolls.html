@@ -1,0 +1,574 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBS0W2YECL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GBS0W2YECL');
+  </script>
+  <title>Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+  <style>
+    /* Scroll-up button */
+    a.scroll-up-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: transparent;
+      color: #3498db !important;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none !important;
+      opacity: 0;
+      visibility: hidden;
+    }
+    a.scroll-up-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    a.scroll-up-right:hover {
+      background: #3498db !important;
+      border-color: #3498db;
+      transform: translateY(-3px);
+      color: white !important;
+    }
+    a.scroll-up-right i {
+      font-size: 18px;
+      color: inherit !important;
+    }
+
+    /* 2 items side by side: images or videos */
+    .pd-quad-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .pd-quad-grid img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background-color: #e0e0e0;
+    }
+    @media (max-width: 480px) {
+      .pd-quad-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Kit composition: 2 big A4 side by side + 3x2 small, all same height */
+    .pd-kit-outer {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      align-items: start;
+    }
+    .pd-kit-bigs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .pd-kit-bigs img {
+      width: 100%;
+      aspect-ratio: 1 / 1.414;
+      object-fit: cover;
+      display: block;
+      background-color: #e0e0e0;
+    }
+    .pd-kit-smalls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .pd-kit-smalls img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background-color: #e0e0e0;
+      min-height: 0;
+    }
+    @media (max-width: 768px) {
+      .pd-kit-outer {
+        grid-template-columns: 1fr;
+      }
+      .pd-kit-smalls {
+        grid-template-rows: auto;
+      }
+      .pd-kit-smalls img {
+        aspect-ratio: 1 / 1.414;
+        height: auto;
+      }
+    }
+
+    /* Full-width rectangle video */
+    .pd-video-rect {
+      margin: 1.5rem 0;
+      background-color: #e0e0e0;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+    .pd-video-rect video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Video wrapper */
+    .video-wrap {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      background-color: #e0e0e0;
+    }
+    .video-wrap video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .pd-quad-grid .video-wrap {
+      aspect-ratio: 1 / 1;
+    }
+    .pd-video-rect .video-wrap {
+      width: 100%;
+      height: 100%;
+    }
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    .video-play-icon i {
+      font-size: 16px;
+      color: #3498db;
+      margin-left: 3px;
+    }
+    .video-wrap:hover .video-play-icon {
+      background: #3498db;
+    }
+    .video-wrap:hover .video-play-icon i {
+      color: white;
+    }
+    .video-wrap.playing .video-play-icon {
+      opacity: 0;
+    }
+    .video-poster-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .video-wrap.playing .video-poster-img {
+      opacity: 0;
+    }
+    .video-play-icon {
+      z-index: 2;
+    }
+
+    /* 3 rectangular images on a row */
+    .pd-triple-rect {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .pd-triple-rect img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background-color: #e0e0e0;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+    @media (max-width: 680px) {
+      .pd-triple-rect {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Square image row */
+    .pd-sq-row {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .pd-sq-row img {
+      flex: 1;
+      min-width: 0;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background-color: #e0e0e0;
+    }
+
+    /* Lightbox */
+    #pd-lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #pd-lightbox.active {
+      display: flex;
+    }
+    #pd-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: default;
+    }
+    #pd-lightbox-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      min-height: 50px;
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      background: transparent;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10000;
+      box-sizing: border-box;
+      padding: 0;
+    }
+    #pd-lightbox-close i {
+      color: #3498db;
+    }
+    #pd-lightbox-close:hover {
+      background: #3498db;
+    }
+    #pd-lightbox-close:hover i {
+      color: white;
+    }
+    body.lightbox-open .fa-arrow-down,
+    body.lightbox-open #scrollUpRight {
+      display: none;
+    }
+
+    /* Full-width banner */
+    .pd-banner {
+      margin: 1.5rem 0;
+    }
+    .pd-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background-color: #e0e0e0;
+      min-height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Video Background -->
+  <video autoplay muted loop playsinline id="bgvideo">
+    <source src="assets/videos/isik_portfolio_video.mp4" type="video/mp4">
+  </video>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.scrollTo({
+      top: document.getElementById('nav').offsetTop,
+      behavior: "instant"
+    });
+  });
+  </script>
+
+  <!-- Wrapper -->
+  <div id="wrapper" class="fade-in">
+
+    <!-- Intro -->
+    <div id="intro">
+      <p class="subtitle">Flat vector characters designed for open-ended play, mix-and-match creativity, and diverse self-expression.</p>
+      <ul class="actions">
+        <li><a href="#main" class="button icon solid solo fas fa-arrow-down scrolly"><span class="label">Continue</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+      <a href="index.html" class="logo">Isik Evirgen</a>
+    </header>
+
+    <!-- Nav -->
+    <nav id="nav">
+      <ul class="links">
+        <li><a href="index.html">Communication & Culture</a></li>
+        <li class="active"><a href="visual_storytelling.html">Visual Storytelling</a></li>
+        <li><a href="brand_commercial.html">Brand & Commercial</a></li>
+        <li><a href="playful_instruments.html">Percussion & Play</a></li>
+        <li><a href="digital_web_interfaces.html">Interfaces</a></li>
+        <li><a href="ai_concepts.html">AI Concepts</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main -->
+    <div id="main">
+
+      <article class="post featured">
+        <header class="major">
+          <h2 class="h11" style="font-size:2rem;">Paper Dolls</h2>
+          <span class="date">2024 - 2025</span>
+        </header>
+
+        <!-- Para 1 -->
+        <div class="h12" style="color:black; margin-top:1rem;">
+          <p>Welcome to the Dream Chasers collection, a thoughtfully designed mix-and-match series of paper dolls that spark imagination, creativity, storytelling, and playful learning. This digital DIY kit encourages hands-on exploration of outfits, character creation, and layering logic, while also reinforcing left and right orientation and attention to detail through interactive play.</p>
+        
+          </ul>
+        </div>
+
+        <!-- 2 images -->
+        <div class="pd-quad-grid">
+          <img src="assets/images/dreamchasers_interchangable.png" alt="">
+          <img src="assets/images/pd_main7.png" alt="">
+        </div>
+
+        <!-- Para 2 -->
+        <p class="h12" style="color:black; margin-top:1rem;">
+          The system is built for expansion. All dolls and outfits across the Dream Chasers collection are fully compatible - children can mix styles freely, build stories across sets, and grow their collection over time.
+        </p>
+
+        <!-- 2 videos -->
+        <div class="pd-quad-grid">
+          <div class="video-wrap">
+            <video muted loop playsinline preload="none">
+              <source src="assets/videos/pd_video1.mp4" type="video/mp4">
+            </video>
+            <img class="video-poster-img" src="assets/images/pd_video1_thumb.png" alt="">
+            <div class="video-play-icon"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="video-wrap">
+            <video muted loop playsinline preload="none">
+              <source src="assets/videos/pd_video2.mp4" type="video/mp4">
+            </video>
+            <img class="video-poster-img" src="assets/images/pd_video2_thumb.png" alt="">
+            <div class="video-play-icon"><i class="fas fa-play"></i></div>
+          </div>
+        </div>
+
+        <!-- Para 3 -->
+        <p class="h12" style="color:black; margin-top:1rem;">
+          Each kit includes a full set in color and black-and-white for easy printing, base dolls across six skin tones, and one black-and-white base doll for full customization - face, hair, skin tone, all theirs to decide. Hand-drawn in Affinity Designer. The project grew out of my Master's in Child Culture Design - and out of losing my mom. The aim is always to keep it as unisex and open-ended as possible - as much as the market leaves room for.
+        </p>
+
+        <!-- A4 kit structure -->
+        <div class="pd-kit-outer">
+          <div class="pd-kit-bigs">
+            <img src="assets/images/pd_fullset_color5.jpg" alt="Full set in color">
+            <img src="assets/images/pd_fullset_bw5.jpg" alt="Full set black and white">
+          </div>
+          <div class="pd-kit-smalls">
+            <img src="assets/images/pd_base_light5.jpg" alt="Light skin tones">
+            <img src="assets/images/pd_base_medium5.jpg" alt="Medium skin tones">
+            <img src="assets/images/pd_base_dark5.jpg" alt="Dark skin tones">
+            <img src="assets/images/pd_base_bw5.jpg" alt="Base dolls black and white">
+            <img src="assets/images/pd_outfits_color5.jpg" alt="Outfits in color">
+            <img src="assets/images/pd_outfits_bw5.jpg" alt="Outfits black and white">
+          </div>
+        </div>
+
+        <!-- Astronaut poem -->
+        <p class="h12" style="color:black; margin-top:2rem; font-style:italic;">
+          Future explorer? Brave and free, climbing mountains or sailing the sea. <br>Map in hand and spirit bold, crafting wonders from stories untold.
+        </p>
+
+        <!-- 2 square images after poem -->
+        <div class="pd-quad-grid" style="margin-top:1.5rem;">
+          <img src="assets/images/pd_sq_b1.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+          <img src="assets/images/pd_sq_b2.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+        </div>
+
+        <!-- Square row after poem -->
+        <div class="pd-sq-row">
+          <img src="assets/images/pd_dc_s1.jpg" alt="">
+          <img src="assets/images/pd_dc_s2.jpg" alt="">
+          <img src="assets/images/pd_dc_s3.jpg" alt="">
+          <img src="assets/images/pd_dc_s4.jpg" alt="">
+        </div>
+
+        <p class="h12" style="color:black; margin-top:2rem; font-style:italic;">
+          Future astronaut? Cosmic guide? Charting stars with curious mind.
+          <br> Maybe tracking a comet's flight, or sketching new worlds late at night.
+        </p>
+
+        <!-- 2 square images -->
+        <div class="pd-quad-grid" style="margin-top:1.5rem;">
+          <img src="assets/images/pd_sq_a1.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+          <img src="assets/images/pd_sq_a2.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+        </div>
+
+        <!-- Remaining text -->
+        <p class="h12" style="color:black; margin-top:2rem;">
+        Future volcanologist? Lava botanist? Maybe chasing fire bugs.<br>
+        Or suiting up for a conference - for sure getting ready for some spark.
+        </p>
+
+        <!-- 3 rectangular images -->
+        <div class="pd-triple-rect">
+          <img src="assets/images/pd_main8.png" alt="">
+          <img src="assets/images/pd_rect2.jpg" alt="">
+          <img src="assets/images/pd_rect3.jpg" alt="">
+        </div>
+
+         <!-- 2 square images -->
+        <div class="pd-quad-grid" style="margin-top:1.5rem;">
+          <img src="assets/images/Halloween_dreamchasers_paperdolls_whatyouget.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+          <img src="assets/images/pd_dc_hw_1.jpg" alt="" style="aspect-ratio:1/1; object-fit:cover; width:100%; display:block; background:#e0e0e0;">
+        </div>
+        
+        
+        <!-- Closing image -->
+        <div class="pd-banner" style="margin-top:1.5rem;">
+          <img src="assets/images/dreamchasers_halloween.jpg" alt="">
+        </div>
+
+        <!-- Back link -->
+        <ul class="actions special">
+          <li><a href="visual_storytelling.html" class="button large">Back to Visual Storytelling</a></li>
+        </ul>
+
+      </article>
+
+    </div>
+
+    <!-- Lightbox -->
+    <div id="pd-lightbox">
+      <button id="pd-lightbox-close"><i class="fas fa-times"></i></button>
+      <img id="pd-lightbox-img" src="" alt="">
+    </div>
+
+    <div id="copyright">
+      <ul>
+        <li class="under-construction">Site under construction</li>
+        <li>&copy; Isik Evirgen | 2004 - 2026</li>
+        <li><a href="mailto:isikevirgen@gmail.com">isikevirgen@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Fixed scroll-to-top button in right corner -->
+<a href="#intro" class="scroll-up-right scrolly" id="scrollUpRight">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+<script>
+$(document).ready(function() {
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 500) {
+      $('#scrollUpRight').addClass('show');
+    } else {
+      $('#scrollUpRight').removeClass('show');
+    }
+  });
+});
+
+// Lightbox
+var lightbox = document.getElementById('pd-lightbox');
+var lightboxImg = document.getElementById('pd-lightbox-img');
+document.querySelectorAll('img:not(.video-poster-img):not(#pd-lightbox-img)').forEach(function(img) {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    lightboxImg.src = this.src;
+    lightbox.classList.add('active');
+    document.body.classList.add('lightbox-open');
+  });
+});
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.classList.remove('lightbox-open');
+}
+document.getElementById('pd-lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', function(e) {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Match kit smalls height to bigs
+function alignKit() {
+  var bigs = document.querySelector('.pd-kit-bigs');
+  var smalls = document.querySelector('.pd-kit-smalls');
+  if (bigs && smalls && window.innerWidth > 768) {
+    smalls.style.height = bigs.offsetHeight + 'px';
+  } else if (smalls) {
+    smalls.style.height = '';
+  }
+}
+window.addEventListener('load', alignKit);
+window.addEventListener('resize', alignKit);
+
+// Hover-to-play: poster shows at rest, plays on hover, resets on leave
+document.querySelectorAll('.video-wrap').forEach(function(wrap) {
+  var video = wrap.querySelector('video');
+  wrap.addEventListener('mouseenter', function() {
+    wrap.classList.add('fading', 'playing');
+    var p = video.play();
+    if (p !== undefined) { p.catch(function(){}); }
+  });
+  wrap.addEventListener('mouseleave', function() {
+    wrap.classList.remove('fading', 'playing');
+    video.pause();
+    video.currentTime = 0;
+  });
+});
+</script>
+
+</body>
+</html>
